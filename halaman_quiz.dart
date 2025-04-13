@@ -118,3 +118,124 @@ class HalamanQuizState extends State<HalamanQuiz> {
                     ),
                   ],
                 )
+ Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 150,
+                      height: 150,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: const RadialGradient(
+                          colors: [Colors.white, Colors.blue],
+                          center: Alignment.center,
+                          radius: 0.85,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color.fromARGB(80, 33, 150, 243),
+                            spreadRadius: 5,
+                            blurRadius: 15,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text("your Score", style: TextStyle(fontSize: 16, color: Colors.blue)),
+                            Text("${quiz.skor} pt", style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      margin: const EdgeInsets.symmetric(horizontal: 30),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 6)],
+                      ),
+                      child: GridView(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 16,
+                          crossAxisSpacing: 16,
+                          childAspectRatio: 2.5,
+                        ),
+                        children: [
+                          _infoSkorItem(Icons.check_circle, Colors.blue, "100%", "Completion"),
+                          _infoSkorItem(Icons.list_alt, Colors.blue, "${quiz.pertanyaan.length}", "Total Question"),
+                          _infoSkorItem(Icons.check, Colors.green, "${quiz.skor ~/ 10}", "Correct"),
+                          _infoSkorItem(Icons.close, Colors.red, "${max(0, quiz.pertanyaan.length - (quiz.skor ~/ 10))}", "Wrong"),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      child: Column(
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: _kembaliKeMenuUtama,
+                            icon: const Icon(Icons.home),
+                            label: const Text("Home"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              minimumSize: const Size(double.infinity, 45),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          ElevatedButton.icon(
+                            onPressed: _ulangQuiz,
+                            icon: const Icon(Icons.refresh),
+                            label: const Text("Play Again"),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                              foregroundColor: Colors.white,
+                              minimumSize: const Size(double.infinity, 45),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+        ),
+      ),
+    );
+  }
+
+  Widget _infoSkorItem(IconData icon, Color color, String value, String label) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        children: [
+          Icon(icon, size: 30, color: color),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
+                Text(label, style: const TextStyle(fontSize: 12)),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
